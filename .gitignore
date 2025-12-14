@@ -41,6 +41,11 @@ outputs/
 # Include the dashboard in the submission
 !trading_dashboard.xlsx
 
+# Internal verification files (not for submission)
+BRIEF.pdf
+FINAL_VERIFICATION.md
+VALIDATION_CHECKLIST.md
+
 # Environment variables
 .env
 .env.local
