@@ -2,6 +2,7 @@ version: 2
 
 sources:
   - name: raw
+    schema: main
     description: Raw production exports
     tables:
       - name: trades_raw
@@ -24,7 +25,8 @@ models:
       - name: side
         tests:
           - accepted_values:
-              values: ['BUY', 'SELL']
+              arguments:
+                values: ['BUY', 'SELL']
 
   - name: stg_accounts
     description: Cleaned accounts with flags
@@ -40,7 +42,8 @@ models:
       - name: segment
         tests:
           - accepted_values:
-              values: ['retail', 'pro', 'vip']
+              arguments:
+                values: ['retail', 'pro', 'vip']
 
   - name: stg_balances
     description: EOD balance snapshots

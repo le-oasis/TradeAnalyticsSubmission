@@ -10,7 +10,8 @@ models:
       - name: segment
         tests:
           - accepted_values:
-              values: ['retail', 'pro', 'vip']
+              arguments:
+                values: ['retail', 'pro', 'vip']
               config:
                 severity: warn
 
