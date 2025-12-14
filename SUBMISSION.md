@@ -214,41 +214,51 @@ trades_raw.account_id → accounts_raw.account_id → accounts_raw.client_id →
 
 ## Deliverables Checklist
 
-### ✅ Data Marts (dbt)
+### ✅ 1. Data Marts (dbt) - REQUIRED
 
-- [x] **Dimensions**: dim_client, dim_account, dim_symbol
-- [x] **Facts**: fact_trades, fact_account_eod, f_client_performance_daily
-- [x] **Source**: DuckDB with incremental materializations
-- [x] **Schema**: Documented in `models/**/_*.yml` files
+**Dimensions:**
+- [x] `dim_client` - `dbt_project/models/marts/dim/dim_client.sql`
+- [x] `dim_account` - `dbt_project/models/marts/dim/dim_account.sql`
+- [x] `dim_symbol` - `dbt_project/models/marts/dim/dim_symbol.sql`
 
-### ✅ Analysis Output
+**Facts:**
+- [x] `fact_trades` - `dbt_project/models/marts/fact/fact_trades.sql`
+- [x] `fact_account_eod` - `dbt_project/models/marts/fact/fact_account_eod.sql`
+- [x] `f_client_performance_daily` - `dbt_project/models/marts/fact/f_client_performance_daily.sql`
 
-- [x] **Python Script**: `analysis/trading_analysis.py` (295 lines)
-  - Performance analysis
-  - Activity metrics
-  - Risk identification
-  - Summary statistics
+**Total: 6 models as required**
 
-- [x] **Excel Dashboard**: `trading_dashboard.xlsx`
+### ✅ 2. Analysis Output - REQUIRED (choose one)
+
+- [x] **Python Script**: `analysis/trading_analysis.py`
+  - Answers all performance, activity, and risk questions
+  - Console output with formatted tables
+
+- [x] **Excel Dashboard**: `analysis/create_dashboard.py` → `trading_dashboard.xlsx`
   - Executive summary with KPIs
-  - Top/bottom performers
-  - Activity trends
-  - Risk alerts
-  - Professional formatting
+  - Styled tables for all business questions
 
-### ✅ Documentation
+### ✅ 3. Data Quality Tests - REQUIRED (minimum 3)
 
-- [x] **README.md**: Quick start, architecture, run instructions
-- [x] **ASSUMPTIONS.md**: Sign conventions, design decisions, modeling approach
-- [x] **INSIGHTS.md**: Executive summary with key findings and recommendations
-- [x] **SUBMISSION.md**: This file - maps brief questions to answers
+**Custom Business Logic Tests:**
+- [x] `assert_no_deleted_accounts_trading.sql` - Detects deleted accounts still trading (9 found)
+- [x] `assert_no_orphan_trades.sql` - Validates all trades link to clients (0 found)
+- [x] `assert_pnl_reasonable.sql` - Flags extreme PnL outliers (11 found)
 
-### ✅ Technical Requirements
+**Total: 3 custom tests as required**
 
-- [x] **dbt for transformations**: Medallion architecture with 13 models
+### ✅ 4. Documentation - REQUIRED
+
+- [x] **README.md**: How to run, approach overview
+- [x] **ASSUMPTIONS.md**: Sign conventions, design decisions
+- [x] **SUBMISSION.md**: This file - maps questions to answers
+
+### ✅ 5. Technical Requirements - REQUIRED
+
+- [x] **dbt for transformations**: All 6 required marts built with dbt
 - [x] **Documented assumptions**: See `docs/ASSUMPTIONS.md`
-- [x] **Clean structure**: Organized by layer (staging/intermediate/marts)
-- [x] **Version control**: Git with meaningful commit messages
+- [x] **Clean code structure**: Medallion architecture (staging/intermediate/marts)
+- [x] **Git repository**: https://github.com/le-oasis/TradeAnalyticsSubmission
 
 ---
 
@@ -355,12 +365,35 @@ These are expected results documenting real data issues.
 
 ---
 
+## Summary
+
+### Required Deliverables: ✅ All Met
+
+| Requirement | Required | Delivered | Status |
+|-------------|----------|-----------|--------|
+| Data Marts (dbt) | 6 models | 6 models | ✅ |
+| Data Quality Tests | 3 minimum | 3 custom tests | ✅ |
+| Analysis Output | 1 (any format) | Python + Excel | ✅ |
+| Documentation | README + assumptions | Complete | ✅ |
+| Version Control | Git repo | GitHub | ✅ |
+
+### Additional Engineering (Not Required)
+
+To build the 6 required marts, supporting models were created:
+- **Staging layer** (5 models): Data cleaning and normalization
+- **Intermediate layer** (2 models): Business logic and enrichment
+- **Schema tests** (27 tests): Additional data quality validation
+
+These follow dbt best practices for production pipelines but were not explicitly required.
+
+---
+
 ## Technologies Used
 
-- **dbt**: v1.10+ with DuckDB adapter
-- **DuckDB**: Embedded analytical database
-- **Python**: pandas, openpyxl for analysis
-- **Git**: Version control with semantic commits
+- **dbt** v1.10+ with DuckDB adapter
+- **DuckDB** - Embedded analytical database
+- **Python** - pandas, openpyxl for analysis
+- **Git** - Version control
 
 ---
 
