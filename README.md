@@ -31,13 +31,18 @@ trading_analytics/
 │   │       ├── dim/
 │   │       └── fact/
 │   ├── tests/                # Data quality tests
-│   ├── macros/               # Reusable SQL functions
-│   └── seeds/                # Reference data
+│   ├── seeds/                # Raw CSV data
+│   └── dbt_project.yml       # dbt configuration
 ├── analysis/                 # Python analysis & visualizations
-└── docs/                     # Documentation & assumptions
+├── docs/                     # Documentation & assumptions
+├── SUBMISSION.md             # Answers to brief questions (START HERE)
+├── README.md                 # This file
+└── requirements.txt          # Python dependencies
 ```
 
 ## 🚀 Quick Start
+
+**→ See `SUBMISSION.md` for detailed answers to all brief questions**
 
 ```bash
 # 1. Install dependencies
@@ -45,15 +50,26 @@ pip install -r requirements.txt
 
 # 2. Setup database and run pipeline
 cd dbt_project
-dbt seed
-dbt run
-dbt test
+dbt seed    # Load raw CSV data
+dbt run     # Build all models (13 models)
+dbt test    # Run data quality tests (30 tests, 28 passing, 2 alerts)
 
 # 3. Run analysis
 cd ../analysis
-python trading_analysis.py
-python create_dashboard.py  # Optional: creates Excel dashboard
+python trading_analysis.py          # Console output with all metrics
+python create_dashboard.py          # Generates Excel dashboard
+
+# 4. View dbt documentation (optional)
+cd ../dbt_project
+dbt docs generate
+dbt docs serve  # Opens at http://localhost:8080
 ```
+
+**Expected Results**:
+- 13 models built successfully
+- 28 tests passing (2 intentional alerts for data quality issues)
+- Analysis output shows 1,336 trades from 40 clients
+- Excel dashboard generated at root: `trading_dashboard.xlsx`
 
 ## 📊 Business Questions Answered
 
