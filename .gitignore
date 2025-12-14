@@ -36,8 +36,10 @@ dbt_project/.user.yml
 .DS_Store
 
 # Output files
-*.xlsx
 outputs/
+
+# Include the dashboard in the submission
+!trading_dashboard.xlsx
 
 # Environment variables
 .env

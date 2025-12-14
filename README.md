@@ -25,16 +25,17 @@ Production-grade analytics pipeline for trading performance analysis using **Med
 trading_analytics/
 ├── dbt_project/
 │   ├── models/
-│   │   ├── staging/          # Bronze: source cleaning & typing
-│   │   ├── intermediate/     # Silver: business logic & enrichment
-│   │   └── marts/            # Gold: analytics-ready dimensions & facts
-│   │       ├── dim/
-│   │       └── fact/
-│   ├── tests/                # Data quality tests
-│   ├── seeds/                # Raw CSV data
+│   │   ├── staging/          # Bronze: source cleaning & typing (5 models)
+│   │   ├── intermediate/     # Silver: business logic & enrichment (2 models)
+│   │   └── marts/            # Gold: analytics-ready dimensions & facts (6 models)
+│   │       ├── dim/          # 3 dimensions: client, account, symbol
+│   │       └── fact/         # 3 facts: trades, account_eod, client_performance_daily
+│   ├── tests/                # 3 custom data quality tests
+│   ├── seeds/                # Raw CSV data files
 │   └── dbt_project.yml       # dbt configuration
 ├── analysis/                 # Python analysis & visualizations
 ├── docs/                     # Documentation & assumptions
+├── trading_dashboard.xlsx    # Pre-generated Excel dashboard (BONUS)
 ├── SUBMISSION.md             # Answers to brief questions (START HERE)
 ├── README.md                 # This file
 └── requirements.txt          # Python dependencies
@@ -57,7 +58,9 @@ dbt test    # Run data quality tests (30 tests, 28 passing, 2 alerts)
 # 3. Run analysis
 cd ../analysis
 python trading_analysis.py          # Console output with all metrics
-python create_dashboard.py          # Generates Excel dashboard
+python create_dashboard.py          # Generates trading_dashboard.xlsx
+
+# Note: A pre-generated dashboard is included in the repo root
 
 # 4. View dbt documentation (optional)
 cd ../dbt_project
@@ -66,10 +69,11 @@ dbt docs serve  # Opens at http://localhost:8080
 ```
 
 **Expected Results**:
-- 13 models built successfully
-- 28 tests passing (2 intentional alerts for data quality issues)
+- 13 models built successfully (6 required marts + 7 supporting)
+- 30 tests run (3 required custom + 27 schema tests)
+  - 28 passing + 2 intentional alerts for data quality issues
 - Analysis output shows 1,336 trades from 40 clients
-- Excel dashboard generated at root: `trading_dashboard.xlsx`
+- Excel dashboard available at: `trading_dashboard.xlsx` (pre-generated and included)
 
 ## 📊 Business Questions Answered
 
