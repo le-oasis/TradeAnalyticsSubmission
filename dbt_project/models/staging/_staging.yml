@@ -1,0 +1,55 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw production exports
+    tables:
+      - name: trades_raw
+        description: Individual trade records
+      - name: accounts_raw
+        description: Trading account registry
+      - name: clients_raw
+        description: Client master data
+      - name: balances_eod_raw
+        description: End-of-day account snapshots
+      - name: symbols_ref
+        description: Symbol normalization reference
+
+models:
+  - name: stg_trades
+    description: Cleaned trades with standardized side values
+    columns:
+      - name: trade_id
+        tests: [unique, not_null]
+      - name: side
+        tests:
+          - accepted_values:
+              values: ['BUY', 'SELL']
+
+  - name: stg_accounts
+    description: Cleaned accounts with flags
+    columns:
+      - name: account_id
+        tests: [unique, not_null]
+
+  - name: stg_clients
+    description: Cleaned clients with normalized segments
+    columns:
+      - name: client_id
+        tests: [unique, not_null]
+      - name: segment
+        tests:
+          - accepted_values:
+              values: ['retail', 'pro', 'vip']
+
+  - name: stg_balances
+    description: EOD balance snapshots
+    columns:
+      - name: balance_key
+        tests: [unique, not_null]
+
+  - name: stg_symbols
+    description: Symbol reference mapping
+    columns:
+      - name: symbol_key
+        tests: [unique, not_null]

@@ -1,0 +1,43 @@
+name: 'trading_analytics'
+version: '1.0.0'
+config-version: 2
+
+profile: 'trading_analytics'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Medallion architecture configuration
+models:
+  trading_analytics:
+    staging:
+      +materialized: view           # Bronze: lightweight, source-aligned
+      +schema: staging
+    intermediate:
+      +materialized: view           # Silver: business logic layer
+      +schema: intermediate
+    marts:
+      dim:
+        +materialized: table        # Gold dims: small, frequently joined
+        +schema: marts
+      fact:
+        +materialized: incremental  # Gold facts: large, append-optimized
+        +schema: marts
+        +unique_key: surrogate_key
+
+vars:
+  # Business logic toggles
+  exclude_cancelled_trades: true
+  exclude_system_accounts: true
+  
+  # Valid reference values
+  valid_segments: ['retail', 'pro', 'vip']
+  valid_jurisdictions: ['MU', 'CY', 'SC', 'XX']

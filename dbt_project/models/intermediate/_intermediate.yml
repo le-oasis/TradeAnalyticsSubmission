@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: int_trades_enriched
+    description: |
+      Silver layer: Trades enriched with client/account info, symbol standardization,
+      and data quality flags for downstream analysis.
+    columns:
+      - name: trade_id
+        tests: [unique, not_null]
+      - name: client_id
+        description: Resolved client_id from account linkage
+      - name: is_deleted_account_trade
+        description: Flag for trades on deleted accounts (risk signal)
+
+  - name: int_client_spine
+    description: |
+      Silver layer: Client-account mapping spine for consistent joins.
+      Resolves client_external_id → client_id relationships.

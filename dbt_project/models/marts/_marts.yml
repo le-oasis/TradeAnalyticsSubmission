@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  # Dimensions
+  - name: dim_client
+    description: Client dimension with segment and jurisdiction
+    columns:
+      - name: client_key
+        tests: [unique, not_null]
+      - name: segment
+        tests:
+          - accepted_values:
+              values: ['retail', 'pro', 'vip']
+              config:
+                severity: warn
+
+  - name: dim_account
+    description: Account dimension with flags and linkage to client
+    columns:
+      - name: account_key
+        tests: [unique, not_null]
+
+  - name: dim_symbol
+    description: Symbol dimension with asset class mapping
+    columns:
+      - name: symbol_key
+        tests: [unique, not_null]
+
+  # Facts
+  - name: fact_trades
+    description: Trade fact table with all measures and foreign keys
+    columns:
+      - name: trade_id
+        tests: [unique, not_null]
+      - name: net_pnl
+        description: realized_pnl + commission (sign convention in docs)
+
+  - name: fact_account_eod
+    description: Daily account snapshot fact for equity/drawdown analysis
+    columns:
+      - name: balance_key
+        tests: [unique, not_null]
+
+  - name: f_client_performance_daily
+    description: Pre-aggregated client performance by day (OLAP-optimized)
+    columns:
+      - name: performance_key
+        tests: [unique, not_null]
